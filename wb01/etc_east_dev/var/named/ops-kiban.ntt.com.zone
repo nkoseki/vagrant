@@ -1,0 +1,41 @@
+$ORIGIN ops-kiban.ntt.com. ; 設定するドメイン名を指定
+$TTL 86400          ;
+@       IN      SOA     ns.ops-kiban.ntt.com. postmaster.ops-kiban.ntt.com. (
+                        2023091401        ; Serial, YYYYMMDDNN
+                        3600              ; Refresh
+                        900               ; Retry
+                        1814400           ; Expire
+                        900 )             ; Minimum
+        IN      NS      ns1.ops-kiban.ntt.com.
+        IN      NS      ns2.ops-kiban.ntt.com.
+ns1     IN      A       10.38.24.148    ; DNS/Proxy#1
+ns2     IN      A       10.38.24.149    ; DNS/Proxy#2
+e10isesak-tpvc900100    IN      A       10.85.223.1
+e10isesak-tpbl010100    IN      A       10.85.223.41
+e10isesak-tpbl010200    IN      A       10.85.223.42
+e10isesak-tpbl010400    IN      A       10.85.223.44
+e10isesak-tpbl010600    IN      A       10.85.223.46
+e10isesak-tpbl010700    IN      A       10.85.223.47
+e10isesak-tpbl010800    IN      A       10.85.223.48
+e10isesak-tpbl010900    IN      A       10.85.223.49
+e10isesak-tpbl011000    IN      A       10.85.223.50
+e10isesak-tpbl011100    IN      A       10.85.223.51
+e10isesak-tpbl011200    IN      A       10.85.223.52
+e10isesak-tpbl011300    IN      A       10.85.223.53
+e10isesak-tpbl020100    IN      A       10.85.223.57
+e10isesak-tpbl030100    IN      A       10.85.223.73
+e10isesak-tpbl030200    IN      A       10.85.223.74
+e10isesak-tpbl030300    IN      A       10.85.223.75
+e10isesak-tpbl030400    IN      A       10.85.223.76
+e10isesak-tpbl030500    IN      A       10.85.223.77
+e10isesak-tpbl030600    IN      A       10.85.223.78
+e10isesak-tpbl030700    IN      A       10.85.223.79
+e10isesak-tpbl030800    IN      A       10.85.223.80
+e10isesak-tpbl040100    IN      A       10.85.223.89
+e10isesak-tpbl040200    IN      A       10.85.223.90
+e10isesak-tpbl040300    IN      A       10.85.223.91
+e10isesak-tpbl040400    IN      A       10.85.223.92
+e10isesak-tpbl040500    IN      A       10.85.223.93
+e10isesak-tpbl040600    IN      A       10.85.223.94
+e10isesak-tpbl040700    IN      A       10.85.223.95
+e10isesak-tpbl040800    IN      A       10.85.223.96

@@ -1,0 +1,1 @@
+subjectAltName = DNS:www.hoge.jp, IP:192.168.56.11

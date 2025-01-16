@@ -1,0 +1,21 @@
+#######################
+# apt-get
+#######################
+apt-get:
+  update: apt-get update
+#######################
+# OS setting
+#######################
+os:
+  ip: "192.168.56.50"
+  timezone: timedatectl set-timezone Asia/Tokyo
+## 複数行にまたがって記述する場合
+  locale: |-
+    apt-get install -y language-pack-ja
+    update-locale LANG=ja_JP.UTF8
+
+#######################
+# Install Pakages
+#######################
+install:
+  vim: dnf install -y vim-enhanced

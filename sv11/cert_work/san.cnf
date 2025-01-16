@@ -1,0 +1,17 @@
+[ req ]
+default_bits	= 2048
+distinguished_name	= req_distinguished_name
+req_extensions	= req_ext
+[ req_distinguished_name ]
+countryName = JP
+stateOrProvinceName = Chiba Pref.
+localityName  = Chiba City
+organizationName = my company
+commonName  = api.hoge.jp
+[ req_ext ]
+subjectAltName	= @alt_names
+[alt_names]
+### ここにSANを記述する
+DNS.1 = www.hoge.jp
+DNS.2 = api.hoge.com
+
