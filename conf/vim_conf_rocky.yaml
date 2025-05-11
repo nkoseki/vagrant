@@ -2,7 +2,7 @@
 ### add_vim
 ########################
 install:
-  vim: dnf install -y vim-enhanced
+  vim-enhanced: dnf install -y vim-enhanced
 setting:
   vimrc: |-
     cat << END > /etc/vimrc.local

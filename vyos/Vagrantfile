@@ -1,0 +1,68 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # install vagrant plugin
+  config.vagrant.plugins = ["vagrant-vyos"]
+
+  # vyos setting
+  config.vm.define :vyos01 do |c|
+    c.vm.hostname = "vyos01"
+    #c.vm.box = "higebu/vyos"
+    c.vm.box = "kun432/vyos"
+    c.vm.network "private_network", ip: "192.168.57.1", virtualbox_intnet: "intnet1"
+    c.vm.network "private_network", ip: "192.168.58.1", virtualbox_intnet: "intnet2"
+  end
+  #
+
+  # web setting
+  config.vm.define :webserver do |c|
+    c.vm.hostname = "webserver"
+    c.vm.box = "centos/7"
+    c.vm.network "private_network", ip: "192.168.58.10"
+    c.vm.provider "virtualbox" do |v|
+      v.gui = false
+      v.cpus = 1
+      v.memory = 512
+    end
+    c.vm.provision :shell, :inline => <<-EOT
+      yum install -y httpd tcpdump curl
+      systemctl enable httpd
+      systemctl start httpd
+      echo Hello > /var/www/html/index.html
+    EOT
+    c.vm.provision :shell, :run => "always", :inline => <<-EOT
+      ip route delete default via 10.0.2.2
+    EOT
+  end
+
+  # client setting
+  (1..2).each do |n|
+    config.vm.define :"client-#{n}" do |c|
+      c.vm.hostname = "client-#{n}"
+      c.vm.box = "centos/7"
+      c.vm.network "private_network", ip: "192.168.57.1#{n}"
+      c.vm.provider "virtualbox" do |v|
+        v.gui = false
+        v.cpus = 1
+        v.memory = 512
+      end
+      c.vm.provision :shell, :inline => <<-EOT
+        yum install -y httpd tcpdump curl
+        systemctl enable httpd
+        systemctl start httpd
+        echo Hello > /var/www/html/index.html
+      EOT
+      c.vm.provision :shell, :run => "always", :inline => <<-EOT
+        ip route delete default via 10.0.2.2
+      EOT
+    end
+  end
+  #
+  config.vm.provider "virtualbox" do |vb|
+    # supress CPU 100% when return from sleep
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+  end
+end
+

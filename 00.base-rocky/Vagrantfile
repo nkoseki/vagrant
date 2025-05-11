@@ -26,8 +26,11 @@ Vagrant.configure("2") do |config|
 # OS設定
   config.vm.provision "shell", inline: os_conf['os']['timezone']
   config.vm.provision "shell", inline: os_conf['os']['locale']
+# 時間がかかるのでスキップ
+#  config.vm.provision "shell", inline: os_conf['update']['update']
+  config.vm.provision "shell", inline: os_conf['install']['epel-release']
 # vimの設定
-  config.vm.provision "shell", inline: vim_conf['install']['vim']
+  config.vm.provision "shell", inline: vim_conf['install']['vim-enhanced']
   config.vm.provision "shell", inline: vim_conf['setting']['vimrc']
 #######################
 end

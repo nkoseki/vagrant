@@ -13,3 +13,8 @@ os:
 #######################
 install:
   httpd: dnf install -y httpd
+  vim-enhanced: dnf install -y vim-enhanced
+  epel-release: dnf install -y epel-release
+
+update:
+  update: dnf -y update
