@@ -10,8 +10,6 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "wb01"
   config.vm.box_check_update = false
   config.vm.network "private_network", ip: "192.168.56.31" #Host only NW
-  config.vm.network "private_network", ip: "192.168.33.10", virtualbox_intnet: "mynetwork" # 内部NW
-  config.vm.network "private_network", ip: "192.168.34.10", virtualbox_intnet: "mynetwork2" # 内部NW2
 ###
   config.vm.provider "virtualbox" do |vb|
     # supress CPU 100% when return from sleep

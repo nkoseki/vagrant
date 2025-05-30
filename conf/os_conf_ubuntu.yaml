@@ -3,6 +3,7 @@
 #######################
 apt-get:
   update: apt-get update
+
 #######################
 # OS setting
 #######################
@@ -19,3 +20,9 @@ os:
 #######################
 install:
   vim: dnf install -y vim-enhanced
+
+#######################
+# .bashrcのカスタマイズ
+#######################
+bashrc:
+  modify_ll: sed -i -e "s/ll='ls -alF'/ll='ls -lF'/" /home/vagrant/.bashrc

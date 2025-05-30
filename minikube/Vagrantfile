@@ -1,133 +1,35 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# 外部ファイル読み込み
+require 'yaml'
+
+vim_conf = YAML.load_file '../conf/vim_conf_ubuntu.yaml'
+os_conf = YAML.load_file '../conf/os_conf_ubuntu.yaml'
+
 Vagrant.configure("2") do |config|
+######################
+# General Setting
+######################
   config.vm.box = "bento/ubuntu-22.04"
+  config.vm.hostname = "minikube" ### 修正必要
   config.vm.box_check_update = false
-  config.vm.hostname = "minikube"
-  config.vm.network "private_network", ip: "192.168.56.52"
-## x11
-  #config.ssh.forward_x11 = true
-  #
-#  config.vm.synced_folder "./share", "/vagrant_data"
+  config.vm.network "private_network", ip: "192.168.56.52" ### 修正必要
+###
   config.vm.provider "virtualbox" do |vb|
-    # supress CPU 100% when return from sleep
-    vb.customize ["modifyvm", :id, "--audio", "none"]
-    vb.gui = false
-    vb.cpus = 2
-    vb.memory = "4096"
-    #vb.memory = "3072"
+    vb.cpus = 2		## 適宜見直し
+    vb.memory = 4096	## 適宜見直し
   end
-## script
-## 最小限の設定にする
-  config.vm.provision "shell", inline: $configBox
-#  config.vm.provision "shell", inline: $configMinikube
+  config.vm.synced_folder "../pub/", "/pub"
+#######################
+# OS設定
+  config.vm.provision "shell", inline: os_conf['apt-get']['update']
+  config.vm.provision "shell", inline: os_conf['os']['timezone']
+  config.vm.provision "shell", inline: os_conf['os']['locale']
+  config.vm.provision "shell", inline: os_conf['bashrc']['modify_ll']
+
+# vimの設定
+  config.vm.provision "shell", inline: vim_conf['setting']['vimrc']
+#######################
 end
-
-########################################################
-# 共通設定
-########################################################
-
-$configBox = <<-EOL
-echo "\"dpkg-preconfigure: unable to re-open stdin: No such file or directory\" メッセージの出力抑止"
-export DEBIAN_FRONTEND=noninteractive
-
-echo "# TimeZoneを日本にする"
-timedatectl set-timezone Asia/Tokyo
-
-echo "# 時刻同期"
-sed -i 's/#NTP=/NTP=ntp.nict.jp/' /etc/systemd/timesyncd.conf
-systemctl restart systemd-timesyncd
-
-echo "bach_completion"
-apt-get install -y bash-completion
-
-EOL
-
-########################################################
-# minikubeインストール
-########################################################
-
-$configMinikube = <<-EOL
-# Ref URL
-# https://qiita.com/yuichi1992_west/items/571016084c110d15320e
-
-#echo "minikubeに必要なパッケージinstall"
-#sudo apt-get update
-#sudo apt-get install -y\
-#    apt-transport-https \
-#    ca-certificates \
-#    curl \
-#    gnupg \
-#    lsb-release \
-#    openssh-server
-
-echo "########################"
-echo "dockerインストール"
-echo "########################"
-# パッケージデータベースを更新
-apt update
-# dockerに必要なパッケージをインストール
-apt install apt-transport-https ca-certificates software-properties-common
-# dockerリポジトリを追加する
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-# dockerレポジトリをaptに追加する
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-# パッケージデータベースを更新
-apt update
-# dockerリポジトリが適用されたことを確認
-apt-cache policy docker-ce
-# dockerをインストールする
-apt install -y docker-ce
-# dockerの起動確認
-#systemctl status docker
-# docker グループ作成（すでに作成済み）
-groupadd docker
-# ユーザをdockerグループに追加
-usermod -aG docker vagrant
-# dockerの再起動
-systemctl restart docker
-
-
-###### 昔のバージョン
-#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-#echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-#sudo apt-get update
-#sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-#sudo usermod -aG docker vagrant
-
-echo "########################"
-echo "kubectlインストール"
-echo "########################"
-curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x ./kubectl
-mv ./kubectl /usr/local/bin/kubectl
-kubectl version --client
-
-echo "########################"
-echo "minikubeインストール"
-echo "########################"
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-sudo dpkg -i minikube_latest_amd64.deb
-rm -f minikube_latest_amd64.deb
-
-########################
-#echo "crictlインストール"
-#VERSION="v1.26.0" # check latest version in /releases page
-#curl -L https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-${VERSION}-linux-amd64.tar.gz --output crictl-${VERSION}-linux-amd64.tar.gz
-#sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
-#rm -f crictl-$VERSION-linux-amd64.tar.gz
-
-########################
-#echo "crictlの設定"
-#echo "runtime-endpoint: unix:///run/containerd/containerd.sock \
-#image-endpoint: unix:///run/containerd/containerd.sock \
-#timeout: 2 \
-#debug: true \
-#pull-image-on-create: false " > /etc/crictl.yaml
-
-##よくわからないおまじない
-#echo "rename /etc/containerd/config.toml"
-#sudo mv /etc/containerd/config.toml /etc/containerd/config.toml.org
-EOL
 

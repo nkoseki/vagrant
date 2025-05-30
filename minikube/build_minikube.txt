@@ -1,9 +1,30 @@
+########################
+#echo "crictlインストール"
+#VERSION="v1.26.0" # check latest version in /releases page
+#curl -L https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-${VERSION}-linux-amd64.tar.gz --output crictl-${VERSION}-linux-amd64.tar.gz
+#sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+#rm -f crictl-$VERSION-linux-amd64.tar.gz
+
+########################
+#echo "crictlの設定"
+#echo "runtime-endpoint: unix:///run/containerd/containerd.sock \
+#image-endpoint: unix:///run/containerd/containerd.sock \
+#timeout: 2 \
+#debug: true \
+#pull-image-on-create: false " > /etc/crictl.yaml
+
+##おまじない
+#echo "rename /etc/containerd/config.toml"
+#sudo mv /etc/containerd/config.toml /etc/containerd/config.toml.org
+EOL
+
+#####################################
 # ここを参考に再インストール
 #https://qiita.com/yuichi1992_west/items/571016084c110d15320e
 # minikube start
 # -> これでDriverが自動的にdockerで起動する
 
-#--------------以下は不要------------
+#--------------以下は参考------------
 # containerd
 # https://kubernetes.io/ja/docs/setup/learning-environment/minikube/
 
