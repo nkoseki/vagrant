@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# 外部ファイル読み込み
+require 'yaml'
+
+vim_conf = YAML.load_file '../conf/vim_conf_rhel.yaml'
+os_conf = YAML.load_file '../conf/os_conf_rhel.yaml'
+
+Vagrant.configure("2") do |config|
+######################
+# General Setting
+######################
+  config.vm.box = "generic/rhel8"
+#  config.vm.box_version = "8.2"
+  config.vm.hostname = "rhel01"
+  config.vm.box_check_update = false
+  config.vm.network "private_network", ip: "192.168.56.55"
+###
+  config.vm.provider "virtualbox" do |vb|
+    vb.cpus = 1
+    vb.memory = 512
+  end
+  config.vm.synced_folder "../pub/", "/pub"
+#######################
+# OS設定
+  config.vm.provision "shell", inline: os_conf['os']['timezone']
+#  config.vm.provision "shell", inline: os_conf['os']['locale']
+# 時間がかかるのでスキップ
+#  config.vm.provision "shell", inline: os_conf['update']['update']
+#  config.vm.provision "shell", inline: os_conf['install']['epel-release']
+# vimの設定
+#  config.vm.provision "shell", inline: vim_conf['install']['vim-enhanced']
+  config.vm.provision "shell", inline: vim_conf['setting']['vimrc']
+#######################
+end
+
+
+
+

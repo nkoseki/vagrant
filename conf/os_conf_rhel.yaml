@@ -1,0 +1,20 @@
+#######################
+# OS setting
+#######################
+os:
+  ip: "192.168.56.10"
+  timezone: timedatectl set-timezone Asia/Tokyo
+  locale: |-
+    dnf install -y glibc-langpack-ja
+    localectl set-locale ja_JP.utf8
+
+#######################
+# Install Pakages
+#######################
+install:
+  httpd: dnf install -y httpd
+  vim-enhanced: dnf install -y vim-enhanced
+  epel-release: dnf install -y epel-release
+
+update:
+  update: dnf -y update
