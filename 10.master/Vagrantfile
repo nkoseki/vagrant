@@ -4,7 +4,7 @@
 # 外部ファイル読み込み
 require 'yaml'
 
-vim_conf = YAML.load_file '../conf/vim_conf_ubuntu.yaml'
+vim_conf = YAML.load_file '../conf/set_vimrc.yaml'
 os_conf = YAML.load_file '../conf/os_conf_ubuntu.yaml'
 
 Vagrant.configure("2") do |config|
@@ -30,6 +30,7 @@ Vagrant.configure("2") do |config|
 
 # vimの設定
   config.vm.provision "shell", inline: vim_conf['setting']['vimrc']
+  config.vm.provision "shell", inline: vim_conf['os_type']['ubuntu']
 #######################
 end
 
