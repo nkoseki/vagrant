@@ -15,3 +15,4 @@ git push -u origin main
 ◆virtual boxのデフォルトNWアドレスの割り当て
 192.168.56.0/24 
 
+

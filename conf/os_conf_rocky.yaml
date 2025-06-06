@@ -13,7 +13,7 @@ os:
 #######################
 install:
   httpd: dnf install -y httpd
-  vim-enhanced: dnf install -y vim-enhanced
+  vim-enhanced: echo "<<<running vim-enhanced>>>"; dnf install -y vim-enhanced
   epel-release: dnf install -y epel-release
 
 update:
