@@ -1,18 +1,37 @@
-echo "# vagrant" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/nkoseki/vagrant.git
-git push -u origin main
+# virtual boxのデフォルトNWアドレスの割り当て
+192.168.56.0/24 
 
----
-◆許可されているNWアドレスの変更する場合
+vagrantでIP割り当てる場合もこの範囲内に割り当てる
+
+# 許可されているNWアドレスを変更・追加する場合
+下記ファイルにデフォルトNW以外のアドレス帯を追加すると使えるようになる
 /etc/vbox/networks.conf
 * 172.16.0.0/24
 * 192.168.0.0/16 
----
-◆virtual boxのデフォルトNWアドレスの割り当て
-192.168.56.0/24 
 
+# レポジトリ配置
+
+- 01.base-redhat8, 02.base-rocky, 03-base-ubuntu
+
+最小構成のリソース、テンプレート用。redhatはおまけ。
+日本語化、タイムスタンプやviの設定など、最低限の設定
+
+- conf/
+
+OS共通で参照する設定ファイルの置き場。
+vimrcの場合、設定ファイルを途中で変更したので２通りの書き方になっている（そのうち直す）
+
+- pub/
+
+ゲストOS起動しログインした際、どのOSでも`/pub`として共通で参照できるフォルダ。
+ゲストOSの/vagrantでもホストOSとディスクを共有できるが、ゲストOSごとに分かれるが、/pubだとOS共通で参照できる。
+
+- 10.master/, 11.worker1/, 12.worker2/
+
+kubernetesクラスタ構築用。
+テンプレートコピーしてIPとCPU/memory, hostnameを変更したくらい。
+
+- その他のフォルダ
+
+試験用に作成したもの、自分用。
 
