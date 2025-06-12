@@ -6,6 +6,7 @@
 
 # koseki add
 work/
+test*/
 
 # .txt file
 *.txt
