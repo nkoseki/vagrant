@@ -18,7 +18,7 @@ sudo apt-cache policy docker-ce
 # dockerをインストールする
 sudo apt install -y docker-ce
 # docker グループ作成（すでに作成済み）
-sudo groupadd docker
+#sudo groupadd docker
 # ユーザをdockerグループに追加
 sudo usermod -aG docker vagrant && newgrp docker
 # dockerの再起動

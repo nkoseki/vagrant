@@ -27,8 +27,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: os_conf['os']['timezone']
   config.vm.provision "shell", inline: os_conf['os']['locale']
   config.vm.provision "shell", inline: os_conf['bashrc']['modify_ll']
-
-# vimの設定
+# kubectl completionの設定
+  config.vm.provision "shell", inline: os_conf['install']['bash_completion']
+  config.vm.provision "shell", inline: os_conf['bashrc']['kubectl_completion']
+########## vimの設定
   config.vm.provision "shell", inline: vim_conf['setting']['vimrc']
   config.vm.provision "shell", inline: vim_conf['os_type']['ubuntu']
 #######################

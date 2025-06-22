@@ -19,10 +19,17 @@ os:
 # Install Pakages
 #######################
 install:
-  vim: dnf install -y vim-enhanced
+  ### vim
+  vim: apt-get install -y vim-enhanced
+
+  ### bash-completion
+  bash_completion: apt-get install -y bash-completion
 
 #######################
 # .bashrcのカスタマイズ
 #######################
 bashrc:
   modify_ll: sed -i -e "s/ll='ls -alF'/ll='ls -lF'/" /home/vagrant/.bashrc
+
+  ## kubectl completion
+  kubectl_completion: echo 'source <(kubectl completion bash)' >>~/.bashrc
